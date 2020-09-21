@@ -24,6 +24,9 @@ public class PublisherEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public PublisherEntity(){
+        
+    }
     public int getPublisherId() {
         return publisherId;
     }
