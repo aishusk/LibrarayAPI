@@ -21,7 +21,7 @@ public class PublisherController {
         try {
            publisher = publisherService.getPublisher(publisherId);
         }catch (LibraryResourceNotFoundException e){
-            new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+           return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(publisher,HttpStatus.OK);
     }
@@ -34,5 +34,26 @@ public class PublisherController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(publisher,HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{publisherId}")
+    public ResponseEntity<?> updatePublisher(@PathVariable int publisherId, @RequestBody Publisher publisher) {
+        try {
+            publisher.setPublisherId(publisherId);
+            publisherService.updatePublisher(publisher);
+        } catch (LibraryResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(publisher,HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{publisherId}")
+    public ResponseEntity<?> deletePublisher(@PathVariable int publisherId) {
+        try {
+            publisherService.deletePublisher(publisherId);
+        } catch (LibraryResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

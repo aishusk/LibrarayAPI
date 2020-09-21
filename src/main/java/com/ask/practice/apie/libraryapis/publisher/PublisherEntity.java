@@ -25,7 +25,7 @@ public class PublisherEntity {
     }
 
     public PublisherEntity(){
-        
+
     }
     public int getPublisherId() {
         return publisherId;
