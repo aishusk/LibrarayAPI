@@ -1,8 +1,8 @@
 package com.ask.practice.apie.libraryapis.exception;
 
-public class LibraryResourceNotFoundException extends Exception {
+public class LibraryResourceBadRequestException extends Exception {
     private String traceId;
-    public LibraryResourceNotFoundException(String message,String traceId) {
+    public LibraryResourceBadRequestException(String message, String traceId) {
         super(message);
         this.traceId = traceId;
     }
