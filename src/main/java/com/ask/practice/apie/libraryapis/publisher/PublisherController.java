@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.UUID;
+
 import static com.ask.practice.apie.libraryapis.utils.LibraryAPIUtils.doesStringValueExists;
 import static com.ask.practice.apie.libraryapis.utils.LibraryAPIUtils.getTraceIdIfNotSet;
 
@@ -31,7 +34,7 @@ public class PublisherController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addPublisher(@RequestBody Publisher publisher, @RequestHeader(value = "Trace-Id",defaultValue = "") String traceId) {
+    public ResponseEntity<?> addPublisher(@Valid @RequestBody Publisher publisher, @RequestHeader(value = "Trace-Id",defaultValue = "") String traceId) {
         traceId = getTraceIdIfNotSet(traceId);
         try {
            publisherService.addPublisher(publisher, traceId);
