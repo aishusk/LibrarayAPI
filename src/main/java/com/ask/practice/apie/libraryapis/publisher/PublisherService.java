@@ -7,8 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.ask.practice.apie.libraryapis.utils.LibraryAPIUtils.doesStringValueExists;
 
 @Service
 public class PublisherService {
@@ -70,5 +77,22 @@ public class PublisherService {
         }catch (EmptyResultDataAccessException e){
             throw new LibraryResourceNotFoundException("Publisher Id : "+ publisherId+ "is not found");
         }
+    }
+
+    public List<Publisher> searchPublisher(String publisherName) {
+        List<PublisherEntity> publisherList = null;
+        if(doesStringValueExists(publisherName)){
+           publisherList = publisherRepository.findByNameContaining(publisherName);
+        }
+        if(!CollectionUtils.isEmpty(publisherList)){
+            return  createPublisherForSearchResoponse(publisherList);
+        }else {
+            return Collections.emptyList();
+        }
+
+    }
+
+    private List<Publisher> createPublisherForSearchResoponse(List<PublisherEntity> publisherList) {
+        return publisherList.stream().map(pe->createPublisherFromEntity(pe)).collect(Collectors.toList());
     }
 }

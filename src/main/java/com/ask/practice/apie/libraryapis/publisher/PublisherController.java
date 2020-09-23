@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.ask.practice.apie.libraryapis.utils.LibraryAPIUtils.doesStringValueExists;
+
 @RestController
 @RequestMapping(path ="v1/publishers")
 public class PublisherController {
@@ -55,5 +57,14 @@ public class PublisherController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchPublisher(@RequestParam String publisherName){
+        if(!doesStringValueExists(publisherName)){
+            return new ResponseEntity<>("Please enter name to search publisher",HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(publisherService.searchPublisher(publisherName),HttpStatus.OK);
     }
 }
